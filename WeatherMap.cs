@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
+using System.Reflection.Emit;
 
 namespace WeatherMapApi
 {
@@ -24,6 +25,22 @@ namespace WeatherMapApi
             //retreiving an object, turning it to a string, and then parsing it as a double
             var temp = double.Parse(JObject.Parse(response)["main"]["temp"].ToString());
             return temp;
+        }
+
+        public static double GetTempInDurango(string withZip)
+        {
+            //Creating a new instance of a "browser" objects, which allows us to uses Http on the web
+            var client = new HttpClient();
+            //==================================================================================
+
+
+            var response = client.GetStringAsync(withZip).Result;
+            //=====================================================================================
+
+
+            //retreiving an object, turning it to a string, and then parsing it as a double
+            var tempDurango = double.Parse(JObject.Parse(response)["main"]["temp"].ToString());
+            return tempDurango;
         }
     }
 }
