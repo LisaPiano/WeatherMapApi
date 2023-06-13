@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Text.Json.Nodes;
 using static System.Net.WebRequestMethods;
-
+using File = System.IO.File;
+using System.Net.Http;
+using System.IO;
 namespace WeatherMapApi
 {
 
@@ -10,20 +12,28 @@ namespace WeatherMapApi
 
         static void Main(string[] args)
         {
-            //var lat = 37.270500;
-            //var lon = -107.878700;
-    
-            var city = "durango";
+            //successfully stores the value of the key in the variable, APIKey without alerting github 
+            string key = File.ReadAllText("appsettings.json");
+            string APIKey = JObject.Parse(key).GetValue("APIKey").ToString();
+            //=========================================================================================
 
-            var client = new HttpClient();
-            var weatherURL = "https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api}&units=imperial";
-            var weatherResponse = client.GetAsync(weatherURL).Result;
-            Console.WriteLine(weatherResponse);
-            //JObject parsedResponse = JObject.Parse(weatherResponse);
-            //var temp = parsedResponse["list"][0]["main"]["temp"];
-            //Console.WriteLine(temp);
+            //Get the zipcode from the user and store it in the string variable zipCode
+            Console.WriteLine("Please enter your zipcode: ");
+            string zipCode = Console.ReadLine();
+            //=========================================================================================
+
+            //Built in API request by Zipcode. I have made this URL work on Postman
+            var apiCall = $"https://api.openweathermap.org/data/2.5/weather?zip={zipCode}&appid={APIKey}&units=imperial";
+            Console.WriteLine("");//add space
+                                  //===============================================================================================
 
 
-    }//end main method
+            Console.WriteLine($"It is currently {WeatherMap.GetTemp(apiCall)} degrees Farenhiet where you are located! I wish that I were someplace warm and humid!!!");
+        
+        
+        }//end main method
+
+
+
   }//end class
 }//end namespace
