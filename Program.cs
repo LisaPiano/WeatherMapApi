@@ -12,7 +12,7 @@ namespace WeatherMapApi
         {
             //var lat = 37.270500;
             //var lon = -107.878700;
-            var api = "afca3ddb684ef8460ebde8a89727053f";
+    
             var city = "durango";
 
             var client = new HttpClient();
